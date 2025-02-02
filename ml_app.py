@@ -20,7 +20,7 @@ def load_and_check_model(model_path):
 # Load models
 encoder = load_and_check_model('models/self made/one_hot_encoder.pkl')  # Load the encoder here
 scaler = load_and_check_model('models/self made/scaler3.pkl')
-catboost_model= load_and_check_model('models/models/catboost_model.pkl')
+catboost_model= load_and_check_model('models/catboost_model.pkl')
 
 def run_ml_app():
     st.title("ML Prediction App")
@@ -94,10 +94,11 @@ def run_ml_app():
     prediction = catboost_model.predict(final_input_processed)
     pred_prob = catboost_model.predict_proba(final_input_processed)
 
-    st.write(f"Prediction: {prediction[0]}")
-    st.write(f"Prediction Probability: {pred_prob[0]}")
+    # st.write(f"Prediction: {prediction[0]}")
+    # st.write(f"Prediction Probability: {pred_prob[0]}")
 
-    if prediction[0] == 1:
+    threshold = 0.3  # Adjust based on performance
+    if pred_prob[0][1] >= threshold:
         st.warning("⚠️ You did a bad buy!")
     else:
         st.success("✅ You did not do a bad buy!")
